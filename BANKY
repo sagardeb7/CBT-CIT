@@ -1,1 +1,158 @@
-# CBT-CIT
+import java.util.*;
+
+ class Account {
+     static Scanner sc = new Scanner(System.in);
+     HashMap<String, Integer> myapp = new HashMap<>();
+     HashMap<String, Double> myapp2 = new HashMap<>();
+
+     public void Create_account() {
+         System.out.println("ENTER YOUR ACCOUNT NUMBER:");
+         String str = sc.next();
+         System.out.println("ENTER A 4 DIGIT PIN:");
+         int pin = sc.nextInt();
+         System.out.println("ENTER AMOUNT TO BE CREDITED");
+         Double bal = sc.nextDouble();
+         if (myapp.containsValue(pin)) {
+             System.out.println("CREATE AN UNIQUE PIN");
+             return;
+         }
+         myapp.put(str, pin);
+         myapp2.put(str, bal);
+         System.out.println("ACCOUNT CREATED SUCCESSFULLY");
+         System.out.println(" ");
+     }
+
+     public void deposit() {
+         System.out.println("ENTER YOUR ACCOUNT NUMBER");
+         String str = sc.next();
+         if (myapp2.containsKey(str) && myapp.containsKey(str)) {
+             System.out.println("ENTER YOUR PIN");
+             int pin = sc.nextInt();
+             if (myapp.get(str) == pin) {
+                 System.out.println("ENTER AMOUNT TO BE CREDITED");
+                 double bal = sc.nextDouble();
+                 double Amount = myapp2.get(str) + bal;
+                 myapp2.replace(str, Amount);
+                 System.out.println("CREDITED SUCCESSFUL");
+             } else {
+                 System.out.println("INCORRECT PIN");
+             }
+         } else {
+             System.out.println("INVALID ACCOUNT NUMBER");
+         }
+
+     }
+
+     public void withdraw() {
+         System.out.println("ENTER YOUR ACCOUNT NUMBER");
+         String str = sc.next();
+         if (myapp2.containsKey(str) && myapp.containsKey(str)) {
+             System.out.println("ENTER YOUR PIN");
+             int pin = sc.nextInt();
+             if (myapp.get(str) == pin) {
+                 System.out.println("ENTER AMOUNT TO BE DEBITED");
+                 double bal = sc.nextDouble();
+                 if (myapp2.get(str) >= bal) {
+                     double Amount = myapp2.get(str) - bal;
+                     myapp2.replace(str, Amount);
+                     System.out.println("AMOUNT DEBITED SUCCESSFULLY");
+                     System.out.println(" ");
+                 } else {
+                     System.out.println("INSUFFICIENT BALANCE");
+                     System.out.println(" ");
+                 }
+             } else {
+                 System.out.println("INCORRECT PIN");
+             }
+         } else {
+             System.out.println("INVALID ACCOUNT NUMBER");
+         }
+     }
+
+     public void transfer() {
+         System.out.println("ENTER YOUR ACCOUNT NUMBER");
+         String sac = sc.next();
+         System.out.println("ENTER RECEIVER'S ACCOUNT NUMBER");
+         String rac = sc.next();
+         if (myapp.containsKey(sac) && myapp2.containsKey(rac)) {
+             System.out.println("ENTER YOUR PIN");
+             int pin = sc.nextInt();
+             if (myapp.get(sac) == pin) {
+                 System.out.println("ENTER THE AMOUNT TO BE TRANSFERRED");
+                 double bal = sc.nextDouble();
+                 if (myapp2.get(sac) >= bal) {
+                     double Amount = myapp2.get(sac) - bal;
+                     myapp2.replace(sac, Amount);
+                     double Amount2 = myapp2.get(rac) + bal;
+                     myapp2.replace(rac, Amount2);
+                     System.out.println("AMOUNT TRANSFERRED SUCCESSFULLY" + " ");
+
+                 } else {
+                     System.out.println("INSUFFICIENT BALANCE" + " ");
+                 }
+             } else {
+                 System.out.println("INCORRECT PIN");
+             }
+         } else {
+             System.out.println("INVALID ACCOUNT NUMBER");
+         }
+
+     }
+
+     public void check_balance() {
+         System.out.println("ENTER YOUR ACCOUNT NUMBER");
+         String str = sc.next();
+         if (myapp2.containsKey(str)) {
+             System.out.println("ENTER 4-DIGIT PIN");
+             int pin = sc.nextInt();
+             if (myapp.get(str) == pin) {
+                 System.out.println("CURRENT BALANCE  " + myapp2.get(str) + " ");
+             } else {
+                 System.out.println("WRONG PIN");
+             }
+         } else {
+             System.out.println("INVALID ACCOUNT NO");
+         }
+     }
+
+ }
+
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        Account c1=new Account();
+        while (true){
+            System.out.println("ENTER 1 TO CREATE AN ACCOUNT");
+            System.out.println("ENTER 2 TO DEPOSIT MONEY");
+            System.out.println("ENTER 3 TO WITHDRAW MONEY");
+            System.out.println("ENTER 4 TO TRANSFER MONEY");
+            System.out.println("ENTER 5 TO CHECK BALANCE");
+            System.out.println("ENTER 6 TO EXIT");
+            System.out.println(" ");
+            System.out.println("ENTER YOUR CHOICE: ");
+            int choice= sc.nextInt();
+            switch(choice){
+                case 1:
+                    c1.Create_account();
+                    break;
+                case 2:
+                    c1.deposit();
+                    break;
+                case 3:
+                    c1.withdraw();
+                    break;
+                case 4:
+                    c1.transfer();
+                    break;
+                case 5:
+                    c1.check_balance();
+                    break;
+                case 6:
+                    System.exit(0);
+                default:
+                    System.out.println("INVALID CHOICE");
+            }
+        }
+    }
+ }
