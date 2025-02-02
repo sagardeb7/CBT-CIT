@@ -1,0 +1,105 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+public class Main {
+
+
+ public static  class Book {
+        String title;
+     String genre;
+        String author;
+
+        public Book(String title, String author, String genre) {
+            this.title = title;
+            this.author = author;
+            this.genre = genre;
+        }
+
+
+        public String toString() {
+            return "Title: " + title + "\nAuthor: " + author + "\nGenre: " + genre;
+        }
+    }
+
+    public static class LibraryCatalog {
+        private ArrayList<Book> catalog;
+        private Scanner scanner;
+
+        public LibraryCatalog() {
+            catalog = new ArrayList<>();
+            scanner = new Scanner(System.in);
+        }
+
+        public void addBook() {
+            System.out.print("Enter book title: ");
+            String title = scanner.nextLine();
+            System.out.print("Enter book author: ");
+            String author = scanner.nextLine();
+            System.out.print("Enter book genre: ");
+            String genre = scanner.nextLine();
+
+            Book book = new Book(title, author, genre);
+            catalog.add(book);
+            System.out.println("Book added successfully!");
+        }
+
+        public void searchBook() {
+            System.out.print("Enter book title or author to search: ");
+            String query = scanner.nextLine();
+
+            for (Book book : catalog) {
+                if (book.title.toLowerCase().contains(query.toLowerCase()) || book.author.toLowerCase().contains(query.toLowerCase())) {
+                    System.out.println(book.toString());
+                    return;
+                }
+            }
+            System.out.println("Book not found!");
+        }
+
+        public void listBooks() {
+            if (catalog.isEmpty()) {
+                System.out.println("Catalog is empty!");
+            } else {
+                for (Book book : catalog) {
+                    System.out.println(book.toString());
+                    System.out.println("--------------------");
+                }
+            }
+        }
+
+        public void run() {
+            while (true) {
+                System.out.println("Library Catalog System");
+                System.out.println("1. Add book");
+                System.out.println("2. Search book");
+                System.out.println("3. List books");
+                System.out.println("4. Exit");
+
+                System.out.print("Enter your choice: ");
+                int choice = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (choice) {
+                    case 1:
+                        addBook();
+                        break;
+                    case 2:
+                        searchBook();
+                        break;
+                    case 3:
+                        listBooks();
+                        break;
+                    case 4:
+                        System.out.println("Exiting...");
+                        return;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+            }
+        }
+
+        public static void main(String[] args) {
+            LibraryCatalog catalog = new LibraryCatalog();
+            catalog.run();
+        }
+    }
+}
